@@ -2,6 +2,55 @@
 
 == CHANGE LOG == 
 
+= Version 1.8.3 = 
+* Add - Added YouTube Video Background - Mute option
+* Add - Added YouTube Video Background - AutoPlay option
+* Add - Added YouTube Video Background - Loop option
+* Add - Added YouTube Video Background - Background Type option
+* Fix - Fixed Header Text Color options issue
+* Fix - Fixed home page menu issue
+
+= Version 1.8.2 = 23/06/2016
+* Add - Added YouTube Video Background - Start Time option
+
+= Version 1.8.1 = 
+* Fix - home page section 15 display issue
+* Fix - Fixed home page slider issue
+* Added Logo Position option
+
+= Version 1.8.0 = 01/06/2016
+* Fix - home page service section optimization
+
+= Version 1.7.9 = 26/05/2016
+* Fix - Fixed Main Menu Colors options issue
+
+= Version 1.7.7 = 23/05/2016
+* Fix - Fixed home page slider
+
+= Version 1.7.6 = 23/05/2016
+* Fix - Fixed service section image icon issue
+* Fix - Fixed home page slider single slide issue
+* Support polylang plugin for home page
+
+= Version 1.7.5  = 16/05/2016
+*  Fix - Header Overlay option inssue
+
+= Version 1.7.4  = 16/05/2016
+* Feature - Added Home Page Header Overlay option
+
+= Version 1.7.3  = 13/05/2016
+* Fix - Fixed some issues
+
+= Version 1.7.2  = 10/05/2016
+* Feature - Compatible with onetone child theme
+* Fix - Fixed menu color issue on mobile device
+* Fix - Fixed Typography option issues for home page banner section
+
+= Version 1.7.1  = 05/05/2016
+* Fix - Fixed bootstrap & font-awesome loaded twice issue
+* Fix - Fixed animation issue of 'about us' section
+* Updated Font Awesome
+
 = Version 1.7.0  = 04/05/2016
 * Fix - Fixed home page slider do shortcode issue
 * Fix - Fixed home page 'No video background' audio issue

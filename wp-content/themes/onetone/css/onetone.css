@@ -300,3 +300,6 @@ li.info-email:before {
 li.info-website:before {
     content: "\f109";
 }
+.homepage section{
+	position:relative;
+	}

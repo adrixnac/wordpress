@@ -55,8 +55,8 @@ global $onetone_animated;
          <?php endif;?>
          
          <div class="row">
-         <div class="col-md-8"><div class="magee-animated" data-animationduration="0.9" data-animationtype="fadeInLeft" data-imageanimation="no"><?php echo do_shortcode($left_content);?></div></div>
-         <div class="col-md-4"><div class="magee-animated" data-animationduration="0.9" data-animationtype="fadeInRight" data-imageanimation="no"><?php echo do_shortcode($right_content);?></div></div>
+         <div class="col-md-8"><div class="<?php echo $onetone_animated;?>" data-animationduration="0.9" data-animationtype="fadeInLeft" data-imageanimation="no"><?php echo do_shortcode($left_content);?></div></div>
+         <div class="col-md-4"><div class="<?php echo $onetone_animated;?>" data-animationduration="0.9" data-animationtype="fadeInRight" data-imageanimation="no"><?php echo do_shortcode($right_content);?></div></div>
          </div>
           </div>
            <?php

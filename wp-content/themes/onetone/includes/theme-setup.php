@@ -56,10 +56,9 @@ add_action( 'after_setup_theme', 'onetone_setup' );
 	
 	
 	wp_enqueue_style('onetone-Yanone-Kaffeesatz', esc_url('//fonts.googleapis.com/css?family=Open+Sans:300,400,700|Yanone+Kaffeesatz|Lustria'), false, '', false );
-    wp_enqueue_style('onetone-font-awesome',  get_template_directory_uri() .'/plugins/font-awesome/css/font-awesome.min.css', false, '4.3.0', false);
-	wp_enqueue_style('onetone-bootstrap',  get_template_directory_uri() .'/plugins/bootstrap/css/bootstrap.min.css', false, '3.3.4', false);
-	wp_enqueue_style('onetone-owl-carousel',  get_template_directory_uri() .'/css/owl.carousel.css', false, '1.3.3', false);
-	wp_enqueue_style('onetone-owl-theme',  get_template_directory_uri() .'/css/owl.theme.css', false, '1.3.3', false);
+    wp_enqueue_style('font-awesome',  get_template_directory_uri() .'/plugins/font-awesome/css/font-awesome.min.css', false, '4.3.0', false);
+	wp_enqueue_style('bootstrap',  get_template_directory_uri() .'/plugins/bootstrap/css/bootstrap.min.css', false, '3.3.4', false);
+	wp_enqueue_style('owl.carousel',  get_template_directory_uri() .'/plugins/owl-carousel/assets/owl.carousel.css', false, '', false);
 	wp_enqueue_style('prettyPhoto',  get_template_directory_uri() .'/css/prettyPhoto.css', false, '3.1.5', false);
 	
 	if( !onetone_is_plugin_active('magee-shortcodes/Magee.php') ){
@@ -99,8 +98,6 @@ add_action( 'after_setup_theme', 'onetone_setup' );
 	
 	//scheme
 	$primary_color = esc_attr(onetone_option('primary_color',$links_color));
-
-	
 	
 	$links_color = onetone_option( 'links_color');
 	
@@ -427,7 +424,14 @@ add_action( 'after_setup_theme', 'onetone_setup' );
 	$section_title_css .= "section.home-section-".($i+1)." .section-title{".$title_typography."}\r\n";
 	
 	if( $content_typography )
-	$section_content_css .= "section.home-section-".($i+1)." .home-section-content,section.home-section-".($i+1)." .home-section-content p{".$content_typography."}\r\n";
+	$section_content_css .= "
+	section.home-section-".($i+1)." .home-section-content,
+	section.home-section-".($i+1)." p{".$content_typography."}\r\n";
+	
+	if( $i==0)
+	$section_title_css .= "section.home-section-".($i+1)." .magee-heading{".$title_typography."}\r\n";
+	
+	
 	if( $text_align )
     $section_content_css .= "section.home-section-".($i+1)." .home-section-content{text-align:".$text_align."}\r\n";
 	$section_content_css .=  "section.home-section-".($i+1)." {".$section_css."}\r\n";	
@@ -441,13 +445,14 @@ add_action( 'after_setup_theme', 'onetone_setup' );
 	$onetone_custom_css  .=  $custom_css;
 	
 	wp_add_inline_style( 'onetone-main', $onetone_custom_css );
-	if(is_home()){
-	wp_enqueue_script( 'onetone-bigvideo', get_template_directory_uri().'/plugins/jquery.tubular.1.0.js', array( 'jquery' ), '1.0', true );
-	}
-	wp_enqueue_script( 'onetone-bootstrap', get_template_directory_uri().'/plugins/bootstrap/js/bootstrap.min.js', array( 'jquery' ), '3.3.4 ', false );
+	
+	wp_enqueue_style( 'onetone-bigvideo', get_template_directory_uri().'/plugins/YTPlayer/css/jquery.mb.YTPlayer.min.css','', '', true );
+	wp_enqueue_script( 'onetone-bigvideo', get_template_directory_uri().'/plugins/YTPlayer/jquery.mb.YTPlayer.js', array( 'jquery' ), '', true );
+	
+	wp_enqueue_script( 'bootstrap', get_template_directory_uri().'/plugins/bootstrap/js/bootstrap.min.js', array( 'jquery' ), '3.3.4 ', false );
     wp_enqueue_script( 'onetone-nav', get_template_directory_uri().'/plugins/jquery.nav.js', array( 'jquery' ), '1.4.14 ', false );
 	wp_enqueue_script( 'onetone-scrollTo', get_template_directory_uri().'/plugins/jquery.scrollTo.js', array( 'jquery' ), '1.4.14 ', false );
-	wp_enqueue_script( 'onetone-carousel', get_template_directory_uri().'/plugins/owl.carousel.js', array( 'jquery' ), '1.3.3', true );
+	wp_enqueue_script( 'onetone-carousel', get_template_directory_uri().'/plugins/owl-carousel/owl.carousel.min.js', array( 'jquery' ), '', true );
 	wp_enqueue_script( 'onetone-parallax', get_template_directory_uri().'/plugins/jquery.parallax-1.1.3.js', array( 'jquery' ), '1.1.3', true );
 	wp_enqueue_script( 'onetone-respond', get_template_directory_uri().'/plugins/respond.min.js', array( 'jquery' ), '', true );
 	wp_enqueue_script( 'onetone-less', get_template_directory_uri().'/plugins/less.min.js', array( 'jquery' ), '2.5.1', true );
@@ -488,7 +493,7 @@ add_action( 'after_setup_theme', 'onetone_setup' );
 		wp_enqueue_style( 'onetone-admin', get_template_directory_uri().'/css/admin.css', false, $theme_info->get( 'Version' ), false);
 		if( $pagenow == "themes.php" && (isset($_GET['page']) && $_GET['page'] == "onetone-options")):
 		
-		wp_enqueue_style('onetone-font-awesome',  get_template_directory_uri() .'/plugins/font-awesome/css/font-awesome.min.css', false, '4.4.0', false);
+		wp_enqueue_style('font-awesome',  get_template_directory_uri() .'/plugins/font-awesome/css/font-awesome.min.css', false, '4.4.0', false);
 		wp_enqueue_style('onetone-options',  get_template_directory_uri() .'/css/options.css', false, $theme_info->get( 'Version' ), false);
 		endif;
 		

@@ -60,8 +60,15 @@ load_template( trailingslashit( get_template_directory() ) . 'includes/metabox-o
  if ( ! function_exists( 'tgmpa' ) ) {
 load_template( trailingslashit( get_template_directory() ) . 'includes/class-tgm-plugin-activation.php' );
  }
+ 
+ if( !function_exists('is_plugin_active') ):
+ 
+ include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+if ( !is_plugin_active('magee-shortcodes-pro/Magee.php') ) {
+ add_action( 'tgmpa_register', 'onetone_theme_register_required_plugins' );
+}
 
-add_action( 'tgmpa_register', 'onetone_theme_register_required_plugins' );
+endif;
 
 /**
  * Register the required plugins for this theme.

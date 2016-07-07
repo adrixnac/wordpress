@@ -28,11 +28,13 @@
   $sticky_logo        = onetone_option('sticky_logo',$logo);
   $sticky_logo_retina = onetone_option('sticky_logo_retina');
   $sticky_logo        = ( $sticky_logo == '' ) ? $sticky_logo_retina : $sticky_logo;
+  $logo_position      = onetone_option('logo_position','left');
+  $logo_position      = $logo_position==''?'left':$logo_position;
   
-  $header_overlay               = onetone_option('header_overlay','no');
+  $header_overlay               = onetone_option('header_overlay','');
  
   $overlay = '';
-  if( $header_overlay == 'yes')
+  if( ($header_overlay == 'yes'|| $header_overlay == '1') && (is_front_page()) )
   $overlay = 'overlay';
   
   //sticky
@@ -58,7 +60,7 @@
         <img src="<?php echo $header_image; ?>" height="<?php echo get_custom_header()->height; ?>" width="<?php echo get_custom_header()->width; ?>" alt="" />
          <?php endif;?>
             <!--Header-->
-            <header class="header-wrap logo-left <?php echo $overlay; ?>">
+            <header class="header-wrap logo-<?php echo $logo_position; ?> <?php echo $overlay; ?>">
              <?php if( $display_top_bar == 'yes' ):?>
                 <div class="top-bar">
                     <div class="container">

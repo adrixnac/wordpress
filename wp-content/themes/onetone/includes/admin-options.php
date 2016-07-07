@@ -2,6 +2,7 @@
 /**
  * A unique identifier is defined to store the options in the database and reference them from the theme.
  */
+if( !function_exists('optionsframework_option_name') ):
 function optionsframework_option_name() {
 
 	$themename = get_option( 'stylesheet' );
@@ -10,11 +11,20 @@ function optionsframework_option_name() {
 	if( is_child_theme() ){	
 		$themename = str_replace("_child","",$themename ) ;
 		}
-	if( defined('ICL_LANGUAGE_CODE') && ICL_LANGUAGE_CODE != 'en' )
-	$themename = $themename.ICL_LANGUAGE_CODE;
+	$themename_lan = $themename;
 	
-	return $themename;
+	if( defined('ICL_LANGUAGE_CODE') && ICL_LANGUAGE_CODE != 'en' )
+	$themename_lan = $themename.'_'.ICL_LANGUAGE_CODE;
+	
+	if(function_exists('pll_current_language')){
+	$default_lan = pll_default_language('slug');
+	$current_lan = pll_current_language('slug');
+	if($current_lan !='')
+	$themename_lan = $themename.'_'.$current_lan;
+	}
+	return $themename_lan;
 }
+endif;
 
 global $social_icons;
 $social_icons = array(
@@ -37,7 +47,7 @@ $social_icons = array(
  *
  */
 
-
+if( !function_exists('optionsframework_options') ):
 function optionsframework_options() {
      global $social_icons,$sidebars,$options_saved,$onetone_home_sections;
 	 
@@ -59,7 +69,7 @@ function optionsframework_options() {
 		'color' => '#666666' );
 		
 		$typography_options = array(
-		'sizes'  => array( '10','11','12','13','14','16','18','20','24','26','28','30','35','36','38','40','46','48','50','60' ),
+		'sizes'  => array( '10','11','12','13','14','16','18','20','24','26','28','30','35','36','38','40','46','48','50','60','64' ),
 		'faces'  => $os_fonts,
 		'styles' => array(
 				  'normal' =>  'normal',
@@ -194,13 +204,13 @@ SHINES ONE PAGE SMALL BUSINESS WEBSITE.",
 		'attachment'=>'scroll' ),
 		 array(
 		'color' => '',
-		'image' => esc_url('http://www.mageewp.com/onetone/wp-content/uploads/sites/17/2015/11/banner_large.jpg'),
+		'image' => esc_url('https://www.mageewp.com/onetone/wp-content/uploads/sites/17/2015/11/banner_large.jpg'),
 		'repeat' => 'repeat',
 		'position' => 'top left',
 		'attachment'=>'scroll' ),
 		 array(
 		'color' => '#eda869',
-		'image' => esc_url('http://www.mageewp.com/onetone/wp-content/uploads/sites/17/2015/11/123.jpg'),
+		'image' => esc_url('https://www.mageewp.com/onetone/wp-content/uploads/sites/17/2015/11/123.jpg'),
 		'repeat' => 'no-repeat',
 		'position' => 'bottom center',
 		'attachment'=>'scroll' ),
@@ -213,7 +223,7 @@ SHINES ONE PAGE SMALL BUSINESS WEBSITE.",
 		 
 		  array(
 		'color' => '',
-		'image' => esc_url('http://www.mageewp.com/onetone/wp-content/uploads/sites/17/2015/11/last4.jpg'),
+		'image' => esc_url('https://www.mageewp.com/onetone/wp-content/uploads/sites/17/2015/11/last4.jpg'),
 		'repeat' => 'repeat',
 		'position' => 'top left',
 		'attachment'=>'scroll' )
@@ -225,7 +235,7 @@ SHINES ONE PAGE SMALL BUSINESS WEBSITE.",
 	
 	
 	$section_title_typography_defaults = array(
-      array('size'  => '48px','face'  => '','style' => 'normal','color' => '#666666' ),
+      array('size'  => '64px','face'  => '','style' => '400','color' => '#ffffff' ),
 	  array('size'  => '48px','face'  => '','style' => 'normal','color' => '#666666' ),
 	  array('size'  => '48px','face'  => '','style' => 'normal','color' => '#666666' ),
 	  array('size'  => '36px','face'  => '','style' => 'bold','color' => '#666666' ),
@@ -238,7 +248,7 @@ SHINES ONE PAGE SMALL BUSINESS WEBSITE.",
          );
 	
 	$section_content_typography_defaults = array(
-	  array('size'  => '14px','face'  => '','style' => 'normal','color' => '#666666' ),
+	  array('size'  => '18px','face'  => '','style' => 'normal','color' => '#ffffff' ),
 	  array('size'  => '14px','face'  => '','style' => 'normal','color' => '#666666' ),
 	  array('size'  => '14px','face'  => '','style' => 'normal','color' => '#666666' ),
 	  array('size'  => '14px','face'  => '','style' => 'normal','color' => '#666666' ),
@@ -283,6 +293,18 @@ SHINES ONE PAGE SMALL BUSINESS WEBSITE.",
 		'type' => 'heading');
 		
 		//HOME PAGE SECTION
+		$header_overlay   = onetone_option( 'header_overlay' ,0);
+	    $header_overlay   = $header_overlay == 'yes'?1:$header_overlay;
+		$options[] = array(
+        'id'          => 'header_overlay',
+        'name'       => __( 'Home Page Header Overlay', 'onetone' ),
+        'desc'        => __( 'Choose to set home page header as overlay style.', 'onetone' ),
+        'std'         => $header_overlay,
+        'type'        => 'checkbox',
+        'section'     => 'header_tab_section',
+        'class'       => '',
+		'options'     => $choices_reverse
+      );
 		
 	 /*  $options[] = array(
 		'name' => __('Number of Sections in Homepage', 'onetone'),
@@ -304,17 +326,58 @@ SHINES ONE PAGE SMALL BUSINESS WEBSITE.",
         
       );
 		$options[] = array('name' => '','id' => 'wrapper_start','type' => 'wrapper_start','class'=>'');
-		$options[] = array('name' => __('YouTube ID for Video Background', 'onetone'),'std' => 'ab0TSkLe-E0','desc' => __('Insert the eleven-letter id here, not url.', 'onetone'),'id' => 'section_background_video_0',
+		$options[] = array('name' => __('YouTube ID for Video Background', 'onetone'),'std' => '9ZfN87gSjvI','desc' => __('Insert the eleven-letter id here, not url.', 'onetone'),'id' => 'section_background_video_0',
+		'type' => 'text','class' => 'section-item accordion-group-youtube_video' );
+		
+		$options[] = array('name' => __('Start Time', 'onetone'),'std' => '28','desc' => __('Start to play.', 'onetone'),'id' => 'section_youtube_start',
 		'type' => 'text','class' => 'section-item accordion-group-youtube_video' );
 		
 		$options[] = array(
-		'name' => __('Video Controls', 'onetone'),
+		'name' => __('Display Video Controls', 'onetone'),
 		'desc' => __('Choose to display video controls at bottom of the section with video background.', 'onetone'),
 		'id' => 'video_controls',
 		'std' => '1',
 		'class' => 'mini section-item accordion-group-youtube_video',
 		'options' => $choices2,
 		'type' => 'select');
+		
+		$options[] = array(
+		'name' => __('Mute', 'onetone'),
+		'desc' => '',
+		'id' => 'youtube_mute',
+		'std' => '0',
+		'class' => 'mini section-item accordion-group-youtube_video',
+		'options' => $choices2,
+		'type' => 'select');
+		
+		$options[] = array(
+		'name' => __('AutoPlay', 'onetone'),
+		'desc' => '',
+		'id' => 'youtube_autoplay',
+		'std' => '1',
+		'class' => 'mini section-item accordion-group-youtube_video',
+		'options' => $choices2,
+		'type' => 'select');
+		
+		$options[] = array(
+		'name' => __('Loop', 'onetone'),
+		'desc' => '',
+		'id' => 'youtube_loop',
+		'std' => '1',
+		'class' => 'mini section-item accordion-group-youtube_video',
+		'options' => $choices2,
+		'type' => 'select');
+		
+		$options[] = array(
+		'name' => __('Background Type', 'onetone'),
+		'desc' => '',
+		'id' => 'youtube_bg_type',
+		'std' => '1',
+		'class' => 'mini section-item accordion-group-youtube_video',
+		'options' => array('1'=>__('Body Background', 'onetone'),'0'=>__('Section Background', 'onetone')),
+		'type' => 'select');
+		
+		
 		$options[] = array('name' => '','id' => 'wrapper_end','type' => 'wrapper_end','class'=>'');
 		$options[] = array('name' => '','id' => 'youtube_video_group_','type' => 'end_group','class'=>'');
 		
@@ -976,7 +1039,8 @@ SHINES ONE PAGE SMALL BUSINESS WEBSITE.",
 		'name' => __('General Options', 'onetone'),
 		'type' => 'heading');
 
-	
+
+		
 	$options[] = array(
 		'name' =>  __('Back to Top Button', 'onetone'),
 		'id' => 'back_to_top_btn',
@@ -1336,7 +1400,7 @@ $options[] =  array(
         'id'          => 'enable_sticky_header',
         'name'       => __( 'Enable Sticky Header', 'onetone' ),
         'desc'        => '',
-        'std'         => '',
+        'std'         => 'yes',
         'type'        => 'select',
         'section'     => 'sticky_header_tab_section',
         
@@ -1347,7 +1411,7 @@ $options[] = array(
         'id'          => 'enable_sticky_header_tablets',
         'name'       => __( 'Enable Sticky Header on Tablets', 'onetone' ),
         'desc'        => '',
-        'std'         => '',
+        'std'         => 'yes',
         'type'        => 'select',
         'section'     => 'sticky_header_tab_section',
         
@@ -1357,7 +1421,7 @@ $options[] = array(
 $options[] = array(
         'id'          => 'enable_sticky_header_mobiles',
         'name'       => __( 'Enable Sticky Header on Mobiles', 'onetone' ),
-        'desc'        => '',
+        'desc'        => 'yes',
         'std'         => '',
         'type'        => 'select',
         'section'     => 'sticky_header_tab_section',
@@ -1536,7 +1600,18 @@ $options[] = array(
 $options[] = array('name' => '','id' => 'wrapper_end','type' => 'wrapper_end','class'=>'');
 	
 $options[] = array('name' => '','id' => 'section_group_end_sticky_header','type' => 'end_group');
-	
+
+$options[] =  array(
+        'id'          => 'logo_position',
+        'name'       => __( 'Logo Position', 'onetone' ),
+        'desc'        => '',
+        'std'         => 'left',
+        'type'        => 'select',
+        'section'     => 'logo_tab_section',
+        'class'       => '',
+        'options'     => $align
+      );
+
 $options[] =  array(
         'id'          => 'logo_left_margin',
         'name'       => __( 'Logo Left Margin', 'onetone' ),
@@ -2511,3 +2586,4 @@ $options[] = array('name' => '','id' => 'sidebar_404_group_','type' => 'end_grou
 		
 	return $options;
 }
+endif;

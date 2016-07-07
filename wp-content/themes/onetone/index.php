@@ -93,9 +93,10 @@ $aside          = 'both-aside';
 			$sections_num = 15 ;
 			
             $new_homepage_section = array();
-			for($i=0;$i<$sections_num;$i++){
+			for($i=1;$i<=$sections_num;$i++){
 			$new_homepage_section[] = $i;
 			}
+
 			$i = 0 ;
 			foreach( $new_homepage_section as $section_part ):
 			$hide_section  = onetone_option( 'section_hide_'.($section_part-1) );

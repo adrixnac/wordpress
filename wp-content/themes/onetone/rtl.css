@@ -4077,9 +4077,7 @@ section.section{
 }
 
 @media screen and (max-width: 600px) {
-  #wpadminbar {
-      top:-46px;
-  }
+ 
   .fxd-header {
         top:0!important;
     }

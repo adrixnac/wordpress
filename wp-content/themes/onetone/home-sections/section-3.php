@@ -54,6 +54,7 @@ global $onetone_animated;
         <?php
 		$services = '';
 		$service  = '';
+		$d        = 0;
 		for($c=0;$c<6;$c++){
 		 $image  = onetone_option( "section_image_".$i."_".$c );
 		 $icon   = onetone_option( "section_icon_".$i."_".$c );
@@ -61,6 +62,8 @@ global $onetone_animated;
 		 $desc   = onetone_option( "section_desc_".$i."_".$c );
 		 $link   =  esc_url(onetone_option("section_link_".$i."_".$c));
 	     $target =  esc_attr(onetone_option("section_target_".$i."_".$c));
+		 
+		 if( !($icon =='' && $title=='' && $desc=='') ):
 		 if( $link == "" )
 	     $title = $title;
 	     else
@@ -69,22 +72,25 @@ global $onetone_animated;
 		 if( $image !='' )
 		 $service_icon = '<img src="'.esc_url($image).'" alt="" />';
 		 else
-		 $service_icon = '<i class="feature-box-icon fa '.esc_attr($icon).'"></i>';
+		 $service_icon = '<div class="icon-box" data-animation=""><i class="feature-box-icon fa '.esc_attr($icon).'"></i></div>';
 			
 	$service .= '<div class="col-md-4">
 	<div class="'.$onetone_animated.'" data-animationduration="0.9" data-animationtype="zoomIn" data-imageanimation="no" id="">
   <div class="magee-feature-box style1" id="" data-os-animation="fadeOut">
-    <div class="icon-box" data-animation=""> '.$service_icon.'</div>
+     '.$service_icon.'
     <h3>'.$title.'</h3>
     <div class="feature-content">
       <p>'.do_shortcode($desc).'</p>
       <a href="" target="_blank" class="feature-link"></a></div>
   </div></div>
 </div>';
-     if( ($c+1) % 3 == 0){
+     if( ($d+1) % 3 == 0){
 		 $services .= '<div class="row">'.$service.'</div>';
 		 $service = '';
 		 }
+		 $d++;
+		 endif;
+		 
 		}
 		if( $service != '' ){ $services .= '<div class="row">'.$service.'</div>';}
 		echo $services;

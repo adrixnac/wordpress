@@ -23,24 +23,25 @@
   $top_bar_right_content       = onetone_option('top_bar_right_content','info');
   
   $logo               = onetone_option('logo','');
-
   $logo_retina        = onetone_option('logo_retina');
   $logo               = ( $logo == '' ) ? $logo_retina : $logo;
-
   $sticky_logo        = onetone_option('sticky_logo',$logo);
   $sticky_logo_retina = onetone_option('sticky_logo_retina');
   $sticky_logo        = ( $sticky_logo == '' ) ? $sticky_logo_retina : $sticky_logo;
+  $logo_position      = onetone_option('logo_position','left');
+  $logo_position      = $logo_position==''?'left':$logo_position;
   
-  $header_overlay               = onetone_option('header_overlay','no');
+  $header_overlay               = onetone_option('header_overlay','');
  
   $overlay = '';
-  if( $header_overlay == 'yes')
+  if( ($header_overlay == 'yes'|| $header_overlay == '1') && (is_front_page()) )
   $overlay = 'overlay';
   
   //sticky
   $enable_sticky_header         = onetone_option('enable_sticky_header','yes');
   $enable_sticky_header_tablets = onetone_option('enable_sticky_header_tablets','yes');
   $enable_sticky_header_mobiles = onetone_option('enable_sticky_header_mobiles','yes');
+  
    
  if(isset($page_meta['nav_menu']) && $page_meta['nav_menu'] !='')
  $theme_location = $page_meta['nav_menu'];
@@ -59,7 +60,7 @@
         <img src="<?php echo $header_image; ?>" height="<?php echo get_custom_header()->height; ?>" width="<?php echo get_custom_header()->width; ?>" alt="" />
          <?php endif;?>
             <!--Header-->
-            <header class="header-wrap logo-left home-header <?php echo $overlay; ?>">
+            <header class="header-wrap logo-<?php echo $logo_position; ?> home-header <?php echo $overlay; ?>">
              <?php if( $display_top_bar == 'yes' ):?>
                 <div class="top-bar">
                     <div class="container">
@@ -127,9 +128,9 @@
 							$default_options = $output;
 						
 							 $onepage_menu = '';
-							 $section_num = onetone_option( 'section_num',isset($default_options['section_num'])?$default_options['section_num']:9); 
-							 if(isset($section_num) && is_numeric($section_num ) && $section_num >0):
-							 for( $i = 0; $i < $section_num ;$i++){
+							 $sections_num = 15 ;
+							
+							 for( $i = 0; $i < $sections_num ;$i++){
 							
 							 $section_menu = onetone_option( 'menu_title_'.$i ,isset($default_options['menu_title_'.$i])?$default_options['menu_title_'.$i]:'');
 							 $section_slug = onetone_option( 'menu_slug_'.$i,isset($default_options['menu_slug_'.$i])?$default_options['menu_slug_'.$i]:'' );
@@ -147,12 +148,12 @@
 							 <span>'.$section_menu.'</span></a></li>';
 							 }
 							 }
-							endif;
+							
 							if ( has_nav_menu( "home_menu" ) ) {
 							 wp_nav_menu(array('theme_location'=>'home_menu','depth'=>0,'fallback_cb' =>false,'container'=>'','container_class'=>'main-menu','menu_id'=>'menu-main','menu_class'=>'main-nav','link_before' => '<span>', 'link_after' => '</span>','items_wrap'=> '<ul id="%1$s" class="%2$s">'.$onepage_menu.'%3$s</ul>'));
 							}
 							else{
-							echo '<ul>'.$onepage_menu.'</ul>';
+							echo '<ul id="menu-main" class="main-nav">'.$onepage_menu.'</ul>';
 							}
 							?>
                         </nav>
@@ -194,7 +195,7 @@
 						   wp_nav_menu(array('theme_location'=>'home_menu','depth'=>0,'fallback_cb' =>false,'container'=>'','container_class'=>'main-menu','menu_id'=>'menu-main','menu_class'=>'main-nav','link_before' => '<span>', 'link_after' => '</span>','items_wrap'=> '<ul id="%1$s" class="%2$s">'.$onepage_menu.'%3$s</ul>'));
 						  }
 						  else{
-						  echo '<ul>'.$onepage_menu.'</ul>';
+						  echo '<ul id="menu-main" class="main-nav">'.$onepage_menu.'</ul>';
 						  }
 						  ?>
                         </nav>

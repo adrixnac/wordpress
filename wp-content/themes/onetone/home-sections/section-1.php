@@ -47,12 +47,15 @@
        <div class="<?php echo $onetone_animated; ?>" data-animationduration="0.9" data-animationtype="bounceInDown" data-imageanimation="no" id="">
         <div style="text-align:center;color:<?php echo $color; ?>;">
           <div style="font-family: 'Lustria',serif;">
-            <h1 class="magee-heading heading-border" id=""><span class="heading-inner"><?php echo do_shortcode($section_title);?></span></h1>
+            <h1 class="magee-heading section-title heading-border" id=""><span class="heading-inner"><?php echo do_shortcode($section_title);?></span></h1>
           </div>
-          <p style="font-size:18px; margin-top: 50px; font-family: 'Lustria',serif;"><?php echo do_shortcode($section_subtitle);?></p>
+          <p class="home-section-content" style="margin-top: 50px;"><?php echo do_shortcode($section_subtitle);?></p>
           <div style="margin-top: 50px;">
             <br />
-            <a href="<?php echo esc_url($btn_link);?>" target="<?php echo esc_attr($btn_target);?>" class=" magee-btn-normal btn-lg btn-line btn-light" style="text-decoration: none;"><?php echo do_shortcode($btn_text);?></a> </div>
+            <?php if( $btn_text != ''):?>
+            <a href="<?php echo esc_url($btn_link);?>" target="<?php echo esc_attr($btn_target);?>" class=" magee-btn-normal btn-lg btn-line btn-light" style="text-decoration: none;"><?php echo do_shortcode($btn_text);?></a> 
+            <?php endif;?>
+            </div>
           <div class="banner-sns" style="margin-top: 50px;">
            <ul>
            <?php 
